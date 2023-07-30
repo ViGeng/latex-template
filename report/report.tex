@@ -3,68 +3,20 @@
 \usepackage{graphicx}
 \usepackage{fancyhdr}
 
-\newcommand\supervisorinfo{
-    Supervisior1: Professor A \\
-    Supervisor2: Professor B
-}
-\newcommand\authorinfo{
-    Your Name \\ 
-    Your Affiliation \\ 
-    Your Email
-}
-
+% author
+\input{../snippet/author}
+% collaborator comment
 \input{../snippet/comment} % collaborator comment
 
 \begin{document}
-\pagestyle{fancy}
-\fancyhead[L]{\leftmark}
-%\fancyhead[R]{\includegraphics[width=2.5cm]{figures/HKUST_GZ_LOGO_abbr}}
-\fancyhead[R]{Sth you want}
 
-% title page
-\begin{titlepage}
-    \begin{center}
-        \vspace*{3cm}
-            
-        \Huge
-        \textbf{Research Plan}
-            
-        \vspace{1cm}
-        \huge
-        Your Topic Title Here
-        
-        
-            
-        \vspace{1.5cm}
-        \Large
-        
-        \authorinfo
-        
-        \today
-        
-            
-        \vfill
-        
-        \supervisorinfo
-        
-        2023.7-2024.6 Annual Plan
-            
-        \vspace{1cm}
-%        \includegraphics[width=0.4\textwidth]{figures/hkustgz_logo.png}
-        
-       	LOGO HERE
-        
-        \Large
-            
-    \end{center}
-\end{titlepage}
-
-
+% Header
+\input{../snippet/header}
+% Title page
+\input{../snippet/titlepage}
 \newpage
-
 % Table of contents
 \tableofcontents
-
 \newpage
 
 % Abstract
