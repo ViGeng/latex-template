@@ -1,11 +1,21 @@
 #!/bin/bash
 
-# This shell removes temporary files in the compiling process.
+# This script cleans temporary LaTeX files
 
+# Array of file extensions to remove
+file_extensions=("log" "aux" "bbl" "blg" "brf" "dvi" "fls" "idx" "ilg" "ind" "lof" "lot" "out" "synctex.gz" "toc" "fdb_latexmk")
+
+# Function to remove files
 remove_files() {
-    local file_extensions=("$@")
-    find . -type f \( "${file_extensions[@]/#/--name *}" \) -delete
+    local ext_list="$1"
+    find . -type f -name "*.$ext_list" -delete
 }
 
-file_extensions=("log" "synctex.gz" "aux" "fdb_latexmk" "out" "fls" "toc")
-remove_files "${file_extensions[@]}"
+echo "Cleaning temporary LaTeX files..."
+
+# Loop through file extensions and remove files
+for ext in "${file_extensions[@]}"; do
+    remove_files "$ext"
+done
+
+echo "Cleaning temporary LaTeX files complete!"
