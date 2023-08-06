@@ -4,20 +4,18 @@
 \usepackage{fancyhdr}
 \usepackage{hyperref}
 
-% author
-\input{snippet/author}
-% collaborator comment
+
+\input{snippet/author} % author
 \input{snippet/comment} % collaborator comment
+\input{snippet/quote.tex} % quote
 
 \begin{document}
 
-% Header
-\input{snippet/header}
-% Title page
-\input{snippet/titlepage}
+
+\input{snippet/header} % Header
+\input{snippet/titlepage} % Title page
 \newpage
-% Table of contents
-\tableofcontents
+\tableofcontents % Table of contents
 \newpage
 
 % Abstract
@@ -28,31 +26,6 @@ This is a concise summary of your research, highlighting the key objectives, met
 \section{Introduction}
 Here you can introduce the background, motivation, and purpose of your research.
 
-\subsection{Research Questions}
-Clearly state the specific research questions that your study aims to address.
-
-% Literature review
-\section{Literature Review}
-Summarize existing research and identify gaps or unresolved issues that your study aims to address.
-
-% Methodology
-\section{Methodology}
-Describe the research design, data collection methods, and analysis techniques you plan to use.
-
-% Results
-\section{Results}
-Present and discuss the findings and outcomes of your research.
-
-% Discussion
-\section{Discussion}
-Interpret and analyze the results in relation to your research questions and objectives.
-
-% Conclusion
-\section{Conclusion}
-Summarize the main findings of your research and discuss their implications.
-
-% References
-\section{References}
-Provide a comprehensive list of references cited throughout your research.
+\grayboxtext{a quotation text in a gray box}
 
 \end{document}

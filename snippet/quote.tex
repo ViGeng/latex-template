@@ -1,0 +1,17 @@
+\usepackage{mdframed} % for quote frame
+\usepackage{xcolor}
+
+\newmdenv[
+  backgroundcolor=gray!20,
+  linewidth=0pt,
+  innerleftmargin=5pt,
+  innerrightmargin=5pt,
+  innertopmargin=5pt,
+  innerbottommargin=5pt
+]{graybox}
+
+\newcommand{\grayboxtext}[1]{%
+  \begin{graybox}
+    #1
+  \end{graybox}
+}
