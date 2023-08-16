@@ -14,9 +14,10 @@ root.tex
 
 ## Snippets
 
-| snippet                            | comments                   |
-| ---------------------------------- | -------------------------- |
-| [titlepage](snippet/titlepage.tex) | Title page                 |
-| [header](snippet/header.tex)       | Header setting             |
-| [comment](snippet/comment.tex)     | collaborator comment style |
-| [author](snippet/author.tex)       | author info                |
+| snippet                            | comments                       |
+| ---------------------------------- | ------------------------------ |
+| [titlepage](snippet/titlepage.tex) | Title page                     |
+| [header](snippet/header.tex)       | Header setting                 |
+| [comment](snippet/comment.tex)     | collaborator comment style     |
+| [author](snippet/author.tex)       | author info                    |
+| [checklist](snippet/checklist.tex) | colorful check list and mark ✓ |

@@ -8,6 +8,7 @@
 \input{snippet/author} % author
 \input{snippet/comment} % collaborator comment
 \input{snippet/quote.tex} % quote
+\input{snippet/checklist.tex} % color check
 
 \begin{document}
 
@@ -20,11 +21,20 @@
 
 % Abstract
 \section*{Abstract}
-This is a concise summary of your research, highlighting the key objectives, methods, results, and conclusions. \wei{This is a comment from Wei.}
 
-% Introduction
+This is a concise summary of your research, highlighting the key objectives, methods, results, and conclusions. \wei{\gcheck This is a comment from Wei.}
+
 \section{Introduction}
 Here you can introduce the background, motivation, and purpose of your research.
+
+\begin{itemize}
+  \item Immediate plan of action.
+  \begin{todolist}
+  	\item[\done] Frame the problem
+  	\item Write solution
+  	\item[\wontfix] profit
+  \end{todolist}
+\end{itemize}
 
 \grayboxtext{a quotation text in a gray box}
 
