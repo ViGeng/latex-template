@@ -3,12 +3,15 @@
 \usepackage{graphicx}
 \usepackage{fancyhdr}
 \usepackage{hyperref}
+% \usepackage[final]{changes} % disable revision tracking
+\usepackage{changes} % enable revision tracking
 
 
 \input{snippet/author} % author
 \input{snippet/comment} % collaborator comment
 \input{snippet/quote.tex} % quote
 \input{snippet/checklist.tex} % color check
+
 
 \begin{document}
 
@@ -25,6 +28,13 @@
 This is a concise summary of your research, highlighting the key objectives, methods, results, and conclusions. \wei{\gcheck This is a comment from Wei.}
 
 \section{Introduction}
+
+\subsection{Using package changes}
+
+Here is \added{added}, \deleted{deleted} and \replaced{replaced}{replaysed} text. 
+%\comment{Maybe I shouldn't have written this?} 
+%\todo[inline]{To-do: Write something worthwhile.}
+
 Here you can introduce the background, motivation, and purpose of your research.
 
 \begin{itemize}

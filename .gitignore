@@ -302,3 +302,4 @@ TSWLatexianTemp*
 
 # MacOS Ignore
 .DS_Store
+*.loc
