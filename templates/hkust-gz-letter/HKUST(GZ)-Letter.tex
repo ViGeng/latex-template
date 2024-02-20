@@ -1,0 +1,99 @@
+% reference: https://www.overleaf.com/latex/templates/hkust-letter-template/jkcyqtjgpqgq
+
+
+\documentclass{article}
+
+\usepackage{charter} % Use the Charter font
+\usepackage[
+	a4paper,    % Paper size
+	top=1in,    % Top margin
+	bottom=1in, % Bottom margin
+	left=1in,   % Left margin
+	right=1in,  % Right margin
+	%showframe  % Uncomment to show frames around the margins for debugging purposes
+]{geometry}
+
+\setlength{\parindent}{0pt}     % Paragraph indentation 
+\setlength{\parskip}{1em}       % Vertical space between paragraphs
+
+
+\usepackage{wallpaper}
+\usepackage{mdframed}
+\usepackage{graphicx}       % Required for including images
+\usepackage{fancyhdr}       % Required for customizing headers and footers
+\usepackage{blindtext}
+
+\fancypagestyle{firstpage}{%
+	\fancyhf{} % Clear default headers/footers
+	\renewcommand{\headrulewidth}{0pt} % No header rule
+	\renewcommand{\footrulewidth}{1pt} % Footer rule thickness
+}
+\fancypagestyle{subsequentpages}{%
+	\fancyhf{} % Clear default headers/footers
+	\renewcommand{\headrulewidth}{1pt} % Header rule thickness
+	\renewcommand{\footrulewidth}{1pt} % Footer rule thickness
+}
+
+\AtBeginDocument{\thispagestyle{firstpage}} % Use the first page headers/footers style on the first page
+\pagestyle{subsequentpages} % Use the subsequent pages headers/footers style on subsequent pages
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+%%%   set the background of letter   %%%
+\newcommand\BackgroundPicture{
+   \put(0,0){
+     \parbox[b][\paperheight]{\paperwidth}{
+       \vfill
+		%\node[opacity=.06]
+       \centering\includegraphics[width=0.3\paperwidth,height=0.3\paperheight,keepaspectratio]{background.png}
+       \vfill
+     }}}
+% \AddToShipoutPicture{\BackgroundPicture}
+
+%%%   the basic information of your letter   %%%
+% \includegraphics[width=0.5\textwidth]{HKUST.png} % Logo
+\includegraphics[width=0.5\textwidth]{HKUSTGZ.png} % Logo
+\hfill
+\begin{tabular}{l @{}}
+	Date: \today\\ % Date
+	Name: abc \\
+	Phone: 00000000\\
+	Email: @connect.ust.hk\\
+    \\
+\end{tabular}
+
+
+\vspace{-1em} % Pull the rule closer to the logo
+
+\rule{\linewidth}{1pt} % Horizontal rule
+
+\bigskip\bigskip % Vertical whitespace
+
+%%%   The body of the letter   %%%
+\begin{tabular}{@{} l}
+	\textbf{Mr./Mrs.\ name} \\
+	\textbf{Title of Letter} \\
+	\textbf{The name of institute / department / school / company / ...} \\
+\end{tabular}
+
+\bigskip % Vertical whitespace
+
+Dear Mr./Mrs.\ name,
+
+\bigskip % Vertical whitespace
+
+\blindtext % Dummy text
+
+\bigskip % Vertical whitespace
+
+Best Wishes,
+
+\includegraphics[height = 1cm]{signature.png}
+
+Your Name \\% If a signature exists, do not type your name hear.
+X Thrust, X Hub\\
+The Hong Kong University of Science and Technology (Guangzhou)
+
+\end{document}
