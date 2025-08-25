@@ -6,7 +6,11 @@
 % Load dependencies using \RequirePackage (recommended inside .sty files)
 \RequirePackage{xcolor}
 \RequirePackage{pifont}
-\RequirePackage{enumitem,amssymb}
+\RequirePackage{enumitem}
+% Avoid duplicate-definition of \Bbbk when other packages (e.g. newtx/math)
+% are loaded by the document class. Relax the command before loading amssymb.
+\let\Bbbk\relax
+\RequirePackage{amssymb}
 \RequirePackage{xparse}
 \RequirePackage{ifthen}
 \RequirePackage{mdframed}
