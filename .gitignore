@@ -303,5 +303,3 @@ TSWLatexianTemp*
 # MacOS Ignore
 .DS_Store
 *.loc
-
-report.pdf

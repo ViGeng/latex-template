@@ -3,14 +3,21 @@
 \usepackage{graphicx}
 \usepackage{fancyhdr}
 \usepackage{hyperref}
-% \usepackage[final]{changes} % disable revision tracking
 \usepackage{changes} % enable revision tracking
 
+% Configure hyperref to handle changes package commands
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  filecolor=magenta,      
+  urlcolor=cyan,
+  pdftitle={Report},
+  pdfauthor={Author},
+  bookmarksdepth=3
+}
 
-\input{snippet/comment} % collaborator comment
-\input{snippet/quote.tex} % quote
-\input{snippet/checklist.tex} % color check
-\input{snippet/cmds.tex}
+
+\usepackage{reusable}
 
 \begin{document}
 
@@ -39,6 +46,12 @@ I feel sleepy every day. \comment{Maybe I shouldn't have written this?} \unsure{
   	\item[\wontfix] profit
   \end{todolist}
 \end{itemize}
+
+\begin{todolist}
+  	\item[\done] Frame the problem
+  	\item Write solution
+  	\item[\wontfix] profit
+\end{todolist}
 
 \grayboxtext{a quotation text in a gray box}
 
