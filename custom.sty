@@ -1,0 +1,62 @@
+% custom.sty - small reusable helpers
+% v0.1 2025/08/25
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{custom}[2025/08/25 v0.1 Reusable helpers]
+
+% Load dependencies using \RequirePackage (recommended inside .sty files)
+\RequirePackage{xcolor}
+\RequirePackage{pifont}
+\RequirePackage{enumitem,amssymb}
+\RequirePackage{xparse}
+\RequirePackage{ifthen}
+\RequirePackage{mdframed}
+
+% Define a colorful check mark
+\newcommand{\gcheck}{\textcolor{green}{\ding{51}}}
+
+% Here begins the definition of a checklist
+\newlist{todolist}{itemize}{2}
+\setlist[todolist]{label=$\square$}
+\newcommand{\cmark}{\textcolor{teal}{\ding{51}}}%
+\newcommand{\xmark}{\textcolor{red}{\ding{55}}}%
+\newcommand{\done}{\rlap{$\square$}{\raisebox{2pt}{\large\hspace{1pt}\cmark}}%
+\hspace{-2.5pt}}
+\newcommand{\wontfix}{\rlap{$\square$}{\raisebox{2pt}{\large\hspace{1pt}\xmark}}%
+\hspace{-2.5pt}}
+
+% Command to highlight unsure wording with optional footnote text
+\NewDocumentCommand{\unsure}{m o}{%
+    \underline{\textbf{\textcolor{orange}{#1}}}%
+    \footnote{\textcolor{red}{%
+        \IfValueTF{#2}{#2}{Unsure wording, please finalize.}%
+    }}%
+}
+
+% branch package
+\newboolean{showcomments}
+\setboolean{showcomments}{true}
+% comment switch
+\ifthenelse{\boolean{showcomments}}
+{ \newcommand{\mynote}[3]{%
+   \protect\fbox{\bfseries\sffamily\scriptsize#1}%
+   {\small$\triangleright$\textsf{\color{#3}{#2}}$\triangleleft$}}} 
+{ \newcommand{\mynote}[3]{}}%
+\newcommand{\wei}[1]{\mynote{Wei}{#1}{blue}}
+
+% for quote frame
+\newmdenv[
+  backgroundcolor=gray!20,
+  linewidth=0pt,
+  innerleftmargin=5pt,
+  innerrightmargin=5pt,
+  innertopmargin=5pt,
+  innerbottommargin=5pt
+]{graybox}
+
+\newcommand{\grayboxtext}[1]{%
+  \begin{graybox}
+    #1
+  \end{graybox}
+}
+
+% End of custom.sty
