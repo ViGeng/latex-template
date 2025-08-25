@@ -1,2 +1,8 @@
-% Command to highlight unsure wording
-\newcommand{\unsure}[1]{\underline{\textbf{\textcolor{orange}{#1}}}\footnote{\textcolor{red}{Unsure wording, please finalize.}}}
+\usepackage{xparse}
+% Command to highlight unsure wording with optional footnote text
+\NewDocumentCommand{\unsure}{m o}{
+    \underline{\textbf{\textcolor{orange}{#1}}}%
+    \footnote{\textcolor{red}{%
+        \IfValueTF{#2}{#2}{Unsure wording, please finalize.}%
+    }}
+}
