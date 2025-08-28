@@ -59,8 +59,9 @@
 
 % Highlight uncertain text with optional custom footnote
 % Usage: \unsure{uncertain text}[optional footnote text]
+% Note: Uses only color and bold for natural line breaking
 \NewDocumentCommand{\unsure}{m o}{%
-    \underline{\textbf{\textcolor{orange}{#1}}}%
+    \textbf{\textcolor{orange}{#1}}%
     \footnote{\textcolor{red}{%
         \IfValueTF{#2}{#2}{Unsure wording, please finalize.}%
     }}%
