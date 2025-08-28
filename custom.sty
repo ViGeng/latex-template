@@ -1,34 +1,64 @@
-% custom.sty - small reusable helpers
-% v0.1 2025/08/25
-\NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{custom}[2025/08/25 v0.1 Reusable helpers]
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% custom.sty - Custom LaTeX commands and environments for academic writing
+% v0.2 2025/08/28
+% Author: Wei
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Load dependencies using \RequirePackage (recommended inside .sty files)
-\RequirePackage{xcolor}
-\RequirePackage{pifont}
-\RequirePackage{enumitem}
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{custom}[2025/08/28 v0.2 Custom LaTeX helpers for academic writing]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PACKAGE DEPENDENCIES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\RequirePackage{xcolor}      % For colored text and backgrounds
+\RequirePackage{pifont}      % For symbols (checkmarks, etc.)
+\RequirePackage{enumitem}    % For customized lists
+\RequirePackage{xparse}      % For advanced command definitions
+\RequirePackage{ifthen}      % For conditional statements
+\RequirePackage{mdframed}    % For framed boxes and environments
+
 % Avoid duplicate-definition of \Bbbk when other packages (e.g. newtx/math)
 % are loaded by the document class. Relax the command before loading amssymb.
 \let\Bbbk\relax
-\RequirePackage{amssymb}
-\RequirePackage{xparse}
-\RequirePackage{ifthen}
-\RequirePackage{mdframed}
+\RequirePackage{amssymb}     % For mathematical symbols
 
-% Define a colorful check mark
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% VISUAL INDICATORS AND SYMBOLS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Simple green checkmark for general use
+% Usage: \gcheck
 \newcommand{\gcheck}{\textcolor{green}{\ding{51}}}
 
-% Here begins the definition of a checklist
+% Colored symbols for task lists
+\newcommand{\cmark}{\textcolor{teal}{\ding{51}}}    % Completed task marker
+\newcommand{\xmark}{\textcolor{red}{\ding{55}}}     % Won't fix task marker
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TODO LISTS AND TASK MANAGEMENT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Custom todo list environment with checkboxes
+% Usage: \begin{todolist} \item Task description \end{todolist}
 \newlist{todolist}{itemize}{2}
 \setlist[todolist]{label=$\square$}
-\newcommand{\cmark}{\textcolor{teal}{\ding{51}}}%
-\newcommand{\xmark}{\textcolor{red}{\ding{55}}}%
+
+% Task completion markers for todo lists
+% Usage: \item[\done] Completed task
 \newcommand{\done}{\rlap{$\square$}{\raisebox{2pt}{\large\hspace{1pt}\cmark}}%
 \hspace{-2.5pt}}
+
+% Usage: \item[\wontfix] Task that won't be completed
 \newcommand{\wontfix}{\rlap{$\square$}{\raisebox{2pt}{\large\hspace{1pt}\xmark}}%
 \hspace{-2.5pt}}
 
-% Command to highlight unsure wording with optional footnote text
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TEXT HIGHLIGHTING AND ANNOTATIONS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Highlight uncertain text with optional custom footnote
+% Usage: \unsure{uncertain text}[optional footnote text]
 \NewDocumentCommand{\unsure}{m o}{%
     \underline{\textbf{\textcolor{orange}{#1}}}%
     \footnote{\textcolor{red}{%
@@ -36,18 +66,31 @@
     }}%
 }
 
-% branch package
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% COMMENT SYSTEM
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Toggle for showing/hiding comments in the document
 \newboolean{showcomments}
 \setboolean{showcomments}{true}
-% comment switch
+
+% Generic comment command with author name and color
+% Usage: \mynote{AuthorName}{comment text}{color}
 \ifthenelse{\boolean{showcomments}}
 { \newcommand{\mynote}[3]{%
    \protect\fbox{\bfseries\sffamily\scriptsize#1}%
    {\small$\triangleright$\textsf{\color{#3}{#2}}$\triangleleft$}}} 
 { \newcommand{\mynote}[3]{}}%
+
+% Predefined comment command for Wei
+% Usage: \wei{comment text}
 \newcommand{\wei}[1]{\mynote{Wei}{#1}{blue}}
 
-% for quote frame
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% BOXED CONTENT AND QUOTATIONS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Gray box environment for quotations and highlighted content
 \newmdenv[
   backgroundcolor=gray!20,
   linewidth=0pt,
@@ -57,10 +100,31 @@
   innerbottommargin=5pt
 ]{graybox}
 
+% Command wrapper for gray box content
+% Usage: \grayboxtext{your text here}
 \newcommand{\grayboxtext}[1]{%
   \begin{graybox}
     #1
   \end{graybox}
 }
 
-% End of custom.sty
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% CONCEPT INTRODUCTION COMMAND
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Structured command to introduce concepts in academic writing
+% Creates a labeled textbox followed by framed content
+% Usage: \say[concept name]{main explanatory text}
+% Example: \say[Key Insight]{This is the main idea we want to convey.}
+%
+% Visual format: [concept name] ⌜ main text ⌝
+% - Concept name appears in a gray background box with sans-serif font
+% - Main text is framed with mathematical corner symbols
+% - Subtle gray coloring for professional appearance
+\NewDocumentCommand{\say}{O{Concept} m}{%
+  \colorbox{gray!15}{\scriptsize\textbf{\textsf{\textcolor{gray!70}{#1}}}}~\textcolor{gray!60}{$\ulcorner$}~#2~\textcolor{gray!60}{$\lrcorner$}%
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% END OF PACKAGE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
