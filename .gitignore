@@ -1,3 +1,4 @@
+report.pdf
 ## Core latex/pdflatex auxiliary files:
 *.aux
 *.lof
@@ -303,3 +304,4 @@ TSWLatexianTemp*
 # MacOS Ignore
 .DS_Store
 *.loc
+report.pdf
