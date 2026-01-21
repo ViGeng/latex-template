@@ -1,11 +1,11 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % custom.sty - Custom LaTeX commands and environments for academic writing
-% v0.2 2025/08/28
+% v0.3 2026/01/21
 % Author: Wei
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{custom}[2025/08/28 v0.2 Custom LaTeX helpers for academic writing]
+\ProvidesPackage{custom}[2026/01/21 v0.3 Custom LaTeX helpers for academic writing]
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % PACKAGE DEPENDENCIES
@@ -65,6 +65,17 @@
     \footnote{\textcolor{red}{%
         \IfValueTF{#2}{#2}{Unsure wording, please finalize.}%
     }}%
+}
+
+% Placeholder command for content to be inserted later
+% Usage: \placeholder{description of what goes here}
+% Creates a distinct boxed placeholder that respects text width
+\newcommand{\placeholder}[1]{%
+    \noindent\fcolorbox{orange}{orange!10}{%
+        \parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule}{%
+            \textbf{\textcolor{orange}{[PLACEHOLDER: #1]}}%
+        }%
+    }%
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
