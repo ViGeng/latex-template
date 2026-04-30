@@ -1,6 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % custom.sty - Custom LaTeX commands and environments for academic writing
-% v0.3 2026/01/21
+% v0.4 2026/04/30
 % Author: Wei
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -22,6 +22,9 @@
 % are loaded by the document class. Relax the command before loading amssymb.
 \let\Bbbk\relax
 \RequirePackage{amssymb}     % For mathematical symbols
+% Formatting and number handling for aligned numeric output
+\RequirePackage{siunitx}
+\sisetup{round-mode=places,round-precision=2}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % VISUAL INDICATORS AND SYMBOLS
@@ -30,6 +33,30 @@
 % Simple green checkmark for general use
 % Usage: \gcheck
 \newcommand{\gcheck}{\textcolor{green}{\ding{51}}}
+
+% Table helper for percentage changes
+% Usage: \change{2.15}{+}, \change{3}{-}, \change{}{0}
+% - + : green up arrow
+% - - : red down arrow
+% - 0 : gray neutral arrow
+\newcommand{\change}[2]{%
+  \ifthenelse{\equal{#2}{+}}{%
+    \ifthenelse{\equal{#1}{}}%
+      {{\textcolor{green!55!black}{\scriptsize\raisebox{0.3ex}{\tiny$\blacktriangle$}}}}%
+      {{\textcolor{green!55!black}{\scriptsize \num{#1}\%\raisebox{0.3ex}{\tiny$\blacktriangle$}}}}%
+  }{%
+    \ifthenelse{\equal{#2}{-}}{%
+      \ifthenelse{\equal{#1}{}}%
+        {{\textcolor{red!70!black}{\scriptsize\raisebox{0.3ex}{\tiny$\blacktriangledown$}}}}%
+        {{\textcolor{red!70!black}{\scriptsize \num{#1}\%\raisebox{0.3ex}{\tiny$\blacktriangledown$}}}}%
+    }{%
+      \ifthenelse{\equal{#1}{}}%
+        {{\textcolor{black!45}{\scriptsize\raisebox{0.3ex}{\tiny$\bullet$}}}}%
+        {{\textcolor{black!45}{\scriptsize \num{#1}\%\raisebox{0.3ex}{\tiny$\bullet$}}}}%
+    }%
+  }%
+}
+\newcommand{\improved}[1]{\change{#1}{+}}
 
 % Colored symbols for task lists
 \newcommand{\cmark}{\textcolor{teal}{\ding{51}}}    % Completed task marker

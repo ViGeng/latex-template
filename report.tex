@@ -37,6 +37,22 @@ Basically, if you want to write your paper more structured, every paragraph or s
 
 Here is \added{added}, \deleted{deleted} and \replaced{replaced}{replaysed} text. 
 
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+Item & Quantity & Price \\
+\hline
+A & 10 & 25.50~\change{2.15}{+} \\
+B & 15 & 30.75~\change{3}{-} \\
+C & 8 & 45.00~\change{0}{0} \\
+\hline
+Total & 33 & 101.25 \\
+\hline
+\end{tabular}
+\caption{Demo table with numbers}
+\end{table}
+
 \todo[inline]{To-do: Write something worthwhile.}
 
 Here you can introduce the background, motivation, and purpose of your research. \unsure{This is a very long piece of unsure wording that should break across multiple lines to test if the uline command from the ulem package properly allows line breaking within underlined bold orange text, which was previously prevented by the standard underline command.}
