@@ -86,19 +86,24 @@
 % TODO LISTS AND TASK MANAGEMENT
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Custom todo list environment with checkboxes
-% Usage: \begin{todolist} \item Task description \end{todolist}
+% Todo list environment with checkboxes.
+% Usage:
+%   \begin{todolist}
+%     \item            open task
+%     \item[\done]     completed task
+%     \item[\wontfix]  task that won't be completed
+%     \item[\wip]      work in progress
+%   \end{todolist}
+% Markers share a fixed-width box so labels align across all states.
+\newcommand{\todo@box}[1]{\makebox[1.1em][l]{\raisebox{0.1ex}{$\square$}\llap{\raisebox{0.35ex}{\hspace{0.18em}#1}\hspace{0.25em}}}}
+\newcommand{\done}{\todo@box{\textcolor{teal}{\footnotesize\ding{51}}}}
+\newcommand{\wontfix}{\todo@box{\textcolor{red}{\footnotesize\ding{55}}}}
+\newcommand{\wip}{\todo@box{\textcolor{orange!80!black}{\footnotesize$\bullet$}}}
+
 \newlist{todolist}{itemize}{2}
-\setlist[todolist]{label=$\square$}
-
-% Task completion markers for todo lists
-% Usage: \item[\done] Completed task
-\newcommand{\done}{\rlap{$\square$}{\raisebox{2pt}{\large\hspace{1pt}\cmark}}%
-\hspace{-2.5pt}}
-
-% Usage: \item[\wontfix] Task that won't be completed
-\newcommand{\wontfix}{\rlap{$\square$}{\raisebox{2pt}{\large\hspace{1pt}\xmark}}%
-\hspace{-2.5pt}}
+\setlist[todolist]{label=\todo@box{},
+  leftmargin=1.6em, labelsep=0.4em,
+  topsep=2pt, partopsep=0pt, parsep=0pt, itemsep=2pt}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % TEXT HIGHLIGHTING AND ANNOTATIONS
