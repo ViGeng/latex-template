@@ -35,26 +35,32 @@
 \newcommand{\gcheck}{\textcolor{green}{\ding{51}}}
 
 % Table helper for percentage changes
-% Usage: \change{2.15}{+}, \change{3}{-}, \change{}{0}
-% - + : green up arrow
-% - - : red down arrow
-% - 0 : gray neutral arrow
-\newcommand{\change}[2]{%
-  \ifthenelse{\equal{#2}{+}}{%
-    \ifthenelse{\equal{#1}{}}%
-      {{\textcolor{green!55!black}{\scriptsize\raisebox{0.3ex}{\tiny$\blacktriangle$}}}}%
-      {{\textcolor{green!55!black}{\scriptsize \num{#1}\%\raisebox{0.3ex}{\tiny$\blacktriangle$}}}}%
-  }{%
-    \ifthenelse{\equal{#2}{-}}{%
-      \ifthenelse{\equal{#1}{}}%
-        {{\textcolor{red!70!black}{\scriptsize\raisebox{0.3ex}{\tiny$\blacktriangledown$}}}}%
-        {{\textcolor{red!70!black}{\scriptsize \num{#1}\%\raisebox{0.3ex}{\tiny$\blacktriangledown$}}}}%
-    }{%
-      \ifthenelse{\equal{#1}{}}%
-        {{\textcolor{black!45}{\scriptsize\raisebox{0.3ex}{\tiny$\bullet$}}}}%
-        {{\textcolor{black!45}{\scriptsize \num{#1}\%\raisebox{0.3ex}{\tiny$\bullet$}}}}%
+% Usage:
+%   \change{1.22}{+}           normal size
+%   \change{1.22}{+}{}         normal size (same as above)
+%   \change{1.22}{+}{-}        noting style (smaller, lighter)
+%   \change{1.22}{+}{+}        stressing style (bold)
+% Sign argument:
+%   + : green up triangle (increase)
+%   - : red down triangle (decrease)
+%   0 : gray "=" symbol (no change)
+\NewDocumentCommand{\change}{m m G{}}{%
+  % Resolve style: size + bold wrapper + fade suffix
+  \ifthenelse{\equal{#3}{-}}%
+    {\def\change@sz{\scriptsize}\let\change@wrap\relax\def\change@fade{!60!white}}%
+    {\ifthenelse{\equal{#3}{+}}%
+      {\let\change@sz\relax\def\change@wrap##1{\textbf{\uline{##1}}}\def\change@fade{}}%
+      {\let\change@sz\relax\let\change@wrap\relax\def\change@fade{}}%
     }%
-  }%
+  \ifthenelse{\equal{#2}{+}}%
+    {\def\change@col{green!55!black\change@fade}\def\change@sym{$\blacktriangle$}}%
+    {\ifthenelse{\equal{#2}{-}}%
+      {\def\change@col{red!70!black\change@fade}\def\change@sym{$\blacktriangledown$}}%
+      {\def\change@col{black!45!white\change@fade}\def\change@sym{$=$}}%
+    }%
+  \ifthenelse{\equal{#1}{}}%
+    {{\textcolor{\change@col}{\change@sz\change@wrap{\raisebox{0.3ex}{\tiny\change@sym}}}}}%
+    {{\textcolor{\change@col}{\change@sz\change@wrap{\num{#1}\%}\raisebox{0.3ex}{\tiny\change@sym}}}}%
 }
 \newcommand{\improved}[1]{\change{#1}{+}}
 

@@ -39,18 +39,16 @@ Here is \added{added}, \deleted{deleted} and \replaced{replaced}{replaysed} text
 
 \begin{table}[h]
 \centering
-\begin{tabular}{|c|c|c|}
+\begin{tabular}{|c|c|c|c|c|}
 \hline
-Item & Quantity & Price \\
+Item & Quantity & Normal & Noting & Stressing \\
 \hline
-A & 10 & 25.50~\change{2.15}{+} \\
-B & 15 & 30.75~\change{3}{-} \\
-C & 8 & 45.00~\change{0}{0} \\
-\hline
-Total & 33 & 101.25 \\
+A & 10 & 25.50~\change{2.15}{+} & 25.50~\change{2.15}{+}{-} & 25.50~\change{2.15}{+}{+} \\
+B & 15 & 30.75~\change{3}{-}    & 30.75~\change{3}{-}{-}    & 30.75~\change{3}{-}{+} \\
+C & 8  & 45.00~\change{0}{0}    & 45.00~\change{0}{0}{-}    & 45.00~\change{0}{0}{+} \\
 \hline
 \end{tabular}
-\caption{Demo table with numbers}
+\caption{Demo table showing \texttt{\textbackslash change} variants: normal, noting (smaller, faded), stressing (bold).}
 \end{table}
 
 \todo[inline]{To-do: Write something worthwhile.}
