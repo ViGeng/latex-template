@@ -48,8 +48,6 @@
 \RequirePackage{xparse}      % \NewDocumentCommand with rich arg specs
 \RequirePackage{ifthen}      % \ifthenelse / \equal for branching
 \RequirePackage{mdframed}    % framed environments (graybox)
-% [normalem] keeps \emph italic. Without it ulem hijacks \emph to underline.
-\RequirePackage[normalem]{ulem}
 
 % amssymb conflicts with newtxmath / fourier / etc. on \Bbbk. Relax it first
 % so loading order with the document class doesn't matter.
@@ -98,7 +96,7 @@
 %   \change{1.22}{+}           pct=1.22, sign=+, normal size
 %   \change{1.22}{+}{}         same as above (third arg explicit-empty)
 %   \change{1.22}{+}{-}        noting style (smaller, faded)
-%   \change{1.22}{+}{+}        stressing style (bold + underlined)
+%   \change{1.22}{+}{+}        stressing style (bold)
 %
 % Auto usage — pct and sign are computed from [old,new]:
 %   \change[100,105]            ->  5.00% ▲ (green, normal)
@@ -114,7 +112,7 @@
 % Style (4th arg) — independent of manual/auto mode:
 %   (empty)  normal — same font size as surrounding text
 %   -        noting — smaller (\scriptsize), color faded toward white
-%   +        stressing — bold + underlined
+%   +        stressing — bold
 %
 % Notes / caveats:
 %   - old=0 in [old,new] triggers division by zero in \fpeval; guard at source.
@@ -138,7 +136,7 @@
   \ifthenelse{\equal{#4}{-}}%
     {\def\change@sz{\scriptsize}\let\change@wrap\relax\def\change@fade{!60!white}}%
     {\ifthenelse{\equal{#4}{+}}%
-      {\let\change@sz\relax\def\change@wrap##1{\textbf{\uline{##1}}}\def\change@fade{}}%
+      {\let\change@sz\relax\let\change@wrap\textbf\def\change@fade{}}%
       {\let\change@sz\relax\let\change@wrap\relax\def\change@fade{}}%
     }%
   % Resolve sign-dependent color and triangle/equals symbol.
