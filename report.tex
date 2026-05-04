@@ -3,22 +3,20 @@
 \usepackage{blindtext}
 \usepackage{graphicx}
 \usepackage{fancyhdr}
-\usepackage{hyperref}
 \usepackage{changes} % enable revision tracking
 
-% Configure hyperref to handle changes package commands
+\usepackage{custom}
+
+% hyperref is loaded by custom.sty; configure project-specific options here.
 \hypersetup{
   colorlinks=true,
   linkcolor=blue,
-  filecolor=magenta,      
+  filecolor=magenta,
   urlcolor=cyan,
   pdftitle={Report},
   pdfauthor={Author},
   bookmarksdepth=3
 }
-
-
-\usepackage{custom}
 
 \begin{document}
 
@@ -49,7 +47,17 @@ C & 8  & 45.00~\change{0}{0}    & 45.00~\change{0}{0}{-}    & 45.00~\change{0}{0
 \hline
 \end{tabular}
 \caption{Demo table showing \texttt{\textbackslash change} variants: normal, noting (smaller, faded), stressing (bold).}
+\label{tab:change-demo}
 \end{table}
+
+\subsection{Using cleveref (preconfigured in custom.sty)}
+\label{sec:cleveref-demo}
+
+Single references shrink to abbreviations: see \cref{tab:change-demo} for the
+change-style demo, and \cref{sec:cleveref-demo} for this subsection. At the
+start of a sentence use the capitalised form: \Cref{tab:change-demo} shows
+three variants. Multiple labels of the same type collapse automatically:
+\cref{tab:change-demo,sec:cleveref-demo} renders with a single prefix.
 
 \todo[inline]{To-do: Write something worthwhile.}
 

@@ -26,6 +26,20 @@
 \RequirePackage{siunitx}
 \sisetup{round-mode=places,round-precision=2}
 
+% hyperref + cleveref. hyperref must be loaded after most packages and before
+% cleveref, so we manage that ordering here. Override settings in your project
+% preamble with \hypersetup{...} after \usepackage{custom}.
+\RequirePackage{hyperref}
+\RequirePackage{cleveref}
+\crefname{figure}{Fig.}{Figs.}        \Crefname{figure}{Fig.}{Figs.}
+\crefname{table}{Tab.}{Tabs.}         \Crefname{table}{Tab.}{Tabs.}
+\crefname{equation}{Eq.}{Eqs.}        \Crefname{equation}{Eq.}{Eqs.}
+\crefname{section}{\S}{\S\S}          \Crefname{section}{\S}{\S\S}
+\crefname{subsection}{\S}{\S\S}       \Crefname{subsection}{\S}{\S\S}
+\crefname{subsubsection}{\S}{\S\S}    \Crefname{subsubsection}{\S}{\S\S}
+\crefname{appendix}{App.}{Apps.}      \Crefname{appendix}{App.}{Apps.}
+\crefname{algorithm}{Alg.}{Algs.}     \Crefname{algorithm}{Alg.}{Algs.}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % VISUAL INDICATORS AND SYMBOLS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
