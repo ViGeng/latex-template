@@ -48,7 +48,8 @@
 \RequirePackage{xparse}      % \NewDocumentCommand with rich arg specs
 \RequirePackage{ifthen}      % \ifthenelse / \equal for branching
 \RequirePackage{mdframed}    % framed environments (graybox)
-\RequirePackage{ulem}        % \uline (line-breakable underline) for \unsure, \change
+% [normalem] keeps \emph italic. Without it ulem hijacks \emph to underline.
+\RequirePackage[normalem]{ulem}
 
 % amssymb conflicts with newtxmath / fourier / etc. on \Bbbk. Relax it first
 % so loading order with the document class doesn't matter.
