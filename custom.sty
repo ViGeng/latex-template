@@ -26,6 +26,7 @@
 %   Annotations
 %     \unsure{text}[footnote]          orange bold + footnote
 %     \placeholder{description}        framed orange placeholder block
+%     \ph{hint}                        inline placeholder [hint?]
 %     \wei{text}                       margin-style note tagged "Wei"
 %     \mynote{Author}{text}{color}     generic version of \wei
 %   Boxes / structure
@@ -208,6 +209,19 @@
         }%
     }%
 }
+
+% \ph{hint} — inline placeholder (abbr. of placeholder) for an unmeasured
+% number, undecided name, or any token to fill in before submission.
+% Renders as [hint?] in muted orange — reads cleanly in body text but is
+% easy to grep / scan visually before submission. Empty arg: \ph{} -> [?].
+\newcommand{\ph}[1]{%
+    \textcolor{orange!85!black}{%
+        [\ifthenelse{\equal{#1}{}}{\textbf{?}}{#1\textsuperscript{\textbf{?}}}]%
+    }%
+}
+
+% Backward-compatible alias for older documents using the previous macro name.
+\newcommand{\pholder}[1]{\ph{#1}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % COMMENT SYSTEM

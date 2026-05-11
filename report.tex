@@ -23,7 +23,7 @@
 % Abstract
 \section*{Abstract}
 
-This is a concise summary of your research, highlighting the key objectives, methods, results, and conclusions. \wei{\gcheck This is a comment from Wei.}
+This is a concise summary of your research, highlighting the key objectives, methods, results, \pholder{sth similar}, and conclusions. \wei{\gcheck This is a comment from Wei.}
 
 \section{Introduction}
 
@@ -43,7 +43,7 @@ Item & Quantity & Normal & Noting & Stressing \\
 \hline
 A & 10 & 25.50~\change{2.15}{+} & 25.50~\change{2.15}{+}{-} & 25.50~\change{2.15}{+}{+} \\
 B & 15 & 30.75~\change{3}{-}    & 30.75~\change{3}{-}{-}    & 30.75~\change{3}{-}{+} \\
-C & 8  & 45.00~\change{0}{0}    & 45.00~\change{0}{0}{-}    & 45.00~\change{0}{0}{+} \\
+C & \ph{8}  & 45.00~\change{0}{0}    & 45.00~\change{0}{0}{-}    & 45.00~\change{0}{0}{+} \\
 \hline
 \multicolumn{2}{|c|}{\small auto from [old,new]}
   & 105~\change[100,105]      & 180~\change[200,180]{}{}{-} & 50~\change[50,50]{}{}{+} \\
@@ -61,6 +61,8 @@ change-style demo, and \cref{sec:cleveref-demo} for this subsection. At the
 start of a sentence use the capitalised form: \Cref{tab:change-demo} shows
 three variants. Multiple labels of the same type collapse automatically:
 \cref{tab:change-demo,sec:cleveref-demo} renders with a single prefix.
+
+\placeholder{This is a placeholder for the main content of the introduction. You can replace this with your actual text.}
 
 \todo[inline]{To-do: Write something worthwhile.}
 
