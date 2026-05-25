@@ -45,4 +45,4 @@ You generally do not need to `\usepackage` these yourself — `custom.sty` loads
 
 ## Notes
 
-- Exported macros include `\cmark`, `\xmark`, `\done`, `\gcheck`, `\unsure`, `\placeholder`, and `\wei` (a comment macro). They are short names and may collide with other packages; consider renaming or namespacing if you reuse them across many packages.
+- Exported macros include `\cmark`, `\xmark`, `\done`, `\gcheck`, `\unsure`, and `\wei` (a comment macro). They are short names and may collide with other packages; consider renaming or namespacing if you reuse them across many packages.

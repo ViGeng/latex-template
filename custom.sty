@@ -25,7 +25,7 @@
 %     \item, \item[\done], \item[\wip], \item[\wontfix]
 %   Annotations
 %     \unsure{text}[footnote]          orange bold + footnote
-%     \placeholder{description}        framed orange placeholder block
+%     \ph{hint}                        inline placeholder [hint?]
 %     \ph{hint}                        inline placeholder [hint?]
 %     \wei{text}                       margin-style note tagged "Wei"
 %     \mynote{Author}{text}{color}     generic version of \wei
@@ -200,15 +200,7 @@
     }}%
 }
 
-% \placeholder{description} — full-width orange-bordered block marking content
-% to be inserted later. Use it as a paragraph-level reminder, not inline.
-\newcommand{\placeholder}[1]{%
-    \noindent\fcolorbox{orange}{orange!10}{%
-        \parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule}{%
-            \textbf{\textcolor{orange}{[PLACEHOLDER: #1]}}%
-        }%
-    }%
-}
+% (placeholder macro removed — prefer explicit text or \ph for inline hints)
 
 % \ph{hint} — inline placeholder (abbr. of placeholder) for an unmeasured
 % number, undecided name, or any token to fill in before submission.
