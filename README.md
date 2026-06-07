@@ -35,14 +35,22 @@ If you put it in a subfolder which is in the same folder with your main.tex, the
 
 - `xcolor`
 - `pifont`
+- `fontawesome5` (chat-bubble icons for `\ai`)
 - `enumitem`
 - `amssymb`
 - `xparse`
 - `ifthen`
 - `mdframed`
+- `siunitx`
+- `xfp`
+- `hyperref`
+- `cleveref`
 
-You generally do not need to `\usepackage` these yourself — `custom.sty` loads them — but if you need to set options for any of them, load that package first in your preamble.
+You generally do not need to `\usepackage` these yourself — `custom.sty` loads them — but if you need to set options for any of them, load that package first in your preamble. Note: because `custom.sty` loads `hyperref` and `cleveref`, do **not** load `hyperref` yourself; apply options via `\hypersetup{...}` after `\usepackage{custom}`.
 
 ## Notes
 
-- Exported macros include `\cmark`, `\xmark`, `\done`, `\gcheck`, `\unsure`, and `\wei` (a comment macro). They are short names and may collide with other packages; consider renaming or namespacing if you reuse them across many packages.
+- Review/collaboration macros — `\wei` (an author comment), `\mynote`, `\todo` (an inline action item), and `\ai` (hand a span to an AI with a prompt, rendered as a chat bubble) — all honor the `showcomments` toggle, so they disappear in camera-ready output (set `\setboolean{showcomments}{false}`).
+- `\todo[label]{text}` colors itself by priority from its label: `FIXME`/`BUG` are high (red), `TODO` (the default) is normal (orange), and `NOTE`/`LATER` are low (gray); any other label uses the normal color.
+- `\ai{quoted text}{instruction}` carries an action state in its optional argument: by default the AI should apply the instruction now; use `\ai[hold]{...}{...}` to park a request for later instead of acting on it.
+- Macro names are short and may collide with other packages (notably `\todo` from `todonotes`); consider renaming or namespacing if you reuse `custom.sty` alongside such packages.

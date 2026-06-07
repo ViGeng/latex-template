@@ -1,43 +1,44 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % custom.sty - Custom LaTeX commands and environments for academic writing
-% v0.5  2026/05/04
+% v0.6  2026/06/07
 % Author: Wei
 %
 % USAGE
 %   \usepackage{custom}                 % in your project preamble
-%   \hypersetup{colorlinks=true, ...}   % optional, after the line above
+%   \hypersetup{colorlinks=true, ...}   % optional, AFTER the line above
 %
-% NOTE ON LOAD ORDER
-%   custom.sty pulls in hyperref + cleveref itself, so do NOT load hyperref
-%   in your project preamble. Apply hyperref options via \hypersetup{} AFTER
-%   \usepackage{custom}.
+% LOAD ORDER
+%   custom.sty pulls in hyperref + cleveref itself, so do NOT load hyperref in
+%   your preamble. Apply hyperref options with \hypersetup{} after \usepackage.
 %
 % QUICK REFERENCE
-%   Symbols / indicators
+%   Symbols & indicators
 %     \gcheck                          green checkmark
-%     \cmark, \xmark                   teal check, red cross (inline)
-%   Numeric change indicators
+%     \cmark, \xmark                   teal check, red cross
+%   Numeric change indicator
 %     \change{pct}{sign}[{style}]      manual percentage change
 %     \change[old,new][{}{}{style}]    auto-computed from two values
 %     \improved{pct}                   shorthand for \change{pct}{+}
 %   Todo lists
-%     \begin{todolist} ... \end{todolist}
-%     \item, \item[\done], \item[\wip], \item[\wontfix]
-%   Annotations
+%     \begin{todolist}...\end{todolist}  items: \item[\done|\wip|\wontfix]
+%   Inline annotations
 %     \unsure{text}[footnote]          orange bold + footnote
 %     \ph{hint}                        inline placeholder [hint?]
-%     \ph{hint}                        inline placeholder [hint?]
-%     \wei{text}                       margin-style note tagged "Wei"
-%     \mynote{Author}{text}{color}     generic version of \wei
-%   Boxes / structure
-%     \begin{graybox} ... \end{graybox}, \grayboxtext{...}
+%   Collaboration & review (all hidden when showcomments=false)
+%     \wei{text}                       inline note tagged "Wei"
+%     \mynote{author}{text}{color}     generic author note
+%     \todo[label]{text}               action item; label sets priority colour
+%                                      (FIXME/BUG red, TODO orange, NOTE/LATER gray)
+%     \ai[state]{text}{instruction}    quote a span + a prompt for an AI; [hold] parks it
+%   Boxes & structure
+%     \begin{graybox}...\end{graybox}, \grayboxtext{...}
 %     \say[concept]{text}              labelled concept introduction
 %   Cross-references (cleveref)
 %     \cref{label}, \Cref{label}       Fig./Tab./Eq./§/App./Alg. abbreviations
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{custom}[2026/05/04 v0.5 Custom LaTeX helpers for academic writing]
+\ProvidesPackage{custom}[2026/06/07 v0.6 Custom LaTeX helpers for academic writing]
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % PACKAGE DEPENDENCIES
@@ -45,6 +46,7 @@
 
 \RequirePackage{xcolor}      % colored text and backgrounds
 \RequirePackage{pifont}      % dingbat symbols (checkmarks, crosses)
+\RequirePackage{fontawesome5}% message / status icons (\ai chat bubbles)
 \RequirePackage{enumitem}    % customised list environments (todolist)
 \RequirePackage{xparse}      % \NewDocumentCommand with rich arg specs
 \RequirePackage{ifthen}      % \ifthenelse / \equal for branching
@@ -68,8 +70,8 @@
 \RequirePackage{hyperref}
 \RequirePackage{cleveref}
 
-% Abbreviated cross-reference names — saves space and keeps a consistent style
-% across projects. Both \cref (lowercase) and \Cref (sentence-start) variants.
+% Abbreviated cross-reference names — saves space and keeps a consistent style.
+% Both \cref (lowercase) and \Cref (sentence-start) variants.
 \crefname{figure}{Fig.}{Figs.}        \Crefname{figure}{Fig.}{Figs.}
 \crefname{table}{Tab.}{Tabs.}         \Crefname{table}{Tab.}{Tabs.}
 \crefname{equation}{Eq.}{Eqs.}        \Crefname{equation}{Eq.}{Eqs.}
@@ -80,7 +82,7 @@
 \crefname{algorithm}{Alg.}{Algs.}     \Crefname{algorithm}{Alg.}{Algs.}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% VISUAL INDICATORS AND SYMBOLS
+% SYMBOLS & INDICATORS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % \gcheck — green checkmark for inline use, e.g. "\gcheck done".
@@ -90,36 +92,25 @@
 \newcommand{\cmark}{\textcolor{teal}{\ding{51}}}
 \newcommand{\xmark}{\textcolor{red}{\ding{55}}}
 
-%-----------------------------------------------------------------------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% NUMERIC CHANGE INDICATOR
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % \change — percentage-change indicator with sign symbol and color.
 %
-% Manual usage:
-%   \change{1.22}{+}           pct=1.22, sign=+, normal size
-%   \change{1.22}{+}{}         same as above (third arg explicit-empty)
-%   \change{1.22}{+}{-}        noting style (smaller, faded)
-%   \change{1.22}{+}{+}        stressing style (bold)
+%   Manual:  \change{1.22}{+}        pct + sign, normal size
+%            \change{1.22}{+}{-}     noting style (smaller, faded)
+%            \change{1.22}{+}{+}     stressing style (bold)
+%   Auto:    \change[100,105]        -> 5.00% ▲   (pct & sign from old,new)
+%            \change[200,180]{}{}{+} -> 10.00% ▼  (stressing)
+%            \change[50,50]          -> 0.00% =
 %
-% Auto usage — pct and sign are computed from [old,new]:
-%   \change[100,105]            ->  5.00% ▲ (green, normal)
-%   \change[100,105]{}{}{-}     ->  auto, noting style
-%   \change[200,180]{}{}{+}     ->  10.00% ▼ (stressing)
-%   \change[50,50]              ->  0.00% =
+%   sign:  +  green up ▲   |  -  red down ▼   |  0  gray =
+%   style: (empty) normal  |  -  noting (\scriptsize, faded)  |  +  stressing (bold)
 %
-% Sign argument:
-%   +  green up triangle    (increase)
-%   -  red down triangle    (decrease)
-%   0  gray "=" symbol      (no change)
-%
-% Style (4th arg) — independent of manual/auto mode:
-%   (empty)  normal — same font size as surrounding text
-%   -        noting — smaller (\scriptsize), color faded toward white
-%   +        stressing — bold
-%
-% Notes / caveats:
-%   - old=0 in [old,new] triggers division by zero in \fpeval; guard at source.
-%   - Whitespace after the comma in [100, 105] is fine; use only one comma.
-%   - Output is wrapped in {} so style/color do not leak into surrounding text.
-%-----------------------------------------------------------------------------
+% Caveats: old=0 in [old,new] divides by zero in \fpeval (guard at source);
+% use a single comma in [old,new]. Output is wrapped in {} so style/color do
+% not leak into surrounding text.
 \def\change@split#1,#2\change@end{\def\change@old{#1}\def\change@new{#2}}
 \NewDocumentCommand{\change}{O{} G{} G{} G{}}{%
   % Defaults: take pct/sign from manual args; auto-mode overrides below.
@@ -157,42 +148,36 @@
 \newcommand{\improved}[1]{\change{#1}{+}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% TODO LISTS AND TASK MANAGEMENT
+% TODO LISTS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Todo list with consistent checkbox markers. All states (open / done / wip /
-% wontfix) render through the same fixed-width \todo@box helper, so the labels
-% align vertically regardless of which marker is used on a given item.
+% Checklist with a consistent set of FontAwesome circle markers. Every state
+% uses an icon of the same size dropped into one fixed-width box, so the task
+% text lines up perfectly regardless of marker.
 %
-% Usage:
 %   \begin{todolist}
-%     \item            open task
-%     \item[\done]     completed task   (teal check on box)
-%     \item[\wip]      in progress      (orange dot on box)
-%     \item[\wontfix]  abandoned task   (red cross on box)
+%     \item            open task     (hollow circle)
+%     \item[\done]     completed     (teal check)
+%     \item[\wip]      in progress   (orange dot)
+%     \item[\wontfix]  abandoned     (red cross)
 %   \end{todolist}
-%
-% Spacing is tightened (no paragraph-sized gaps between items). Adjust
-% topsep/itemsep below if you prefer looser lists.
-\newcommand{\todo@box}[1]{\makebox[1.1em][l]{\raisebox{0.1ex}{$\square$}\llap{\raisebox{0.35ex}{\hspace{0.18em}#1}\hspace{0.25em}}}}
-\newcommand{\done}{\todo@box{\textcolor{teal}{\footnotesize\ding{51}}}}
-\newcommand{\wontfix}{\todo@box{\textcolor{red}{\footnotesize\ding{55}}}}
-\newcommand{\wip}{\todo@box{\textcolor{orange!80!black}{\footnotesize$\bullet$}}}
+\newcommand{\td@mark}[1]{\makebox[1.2em][c]{\small#1}}
+\newcommand{\done}{\td@mark{\textcolor{teal}{\faCheckCircle}}}
+\newcommand{\wip}{\td@mark{\textcolor{orange!90!black}{\faDotCircle}}}
+\newcommand{\wontfix}{\td@mark{\textcolor{red!80!black}{\faTimesCircle}}}
 
 \newlist{todolist}{itemize}{2}
-\setlist[todolist]{label=\todo@box{},
-  leftmargin=1.6em, labelsep=0.4em,
-  topsep=2pt, partopsep=0pt, parsep=0pt, itemsep=2pt}
+\setlist[todolist]{label=\td@mark{\textcolor{black!40}{\faCircle[regular]}},
+  leftmargin=2em, labelsep=0.5em,
+  topsep=3pt, partopsep=0pt, parsep=0pt, itemsep=3pt}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% TEXT HIGHLIGHTING AND ANNOTATIONS
+% INLINE ANNOTATIONS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% \unsure{text}[footnote] — flag wording you are not yet confident in.
-% Renders the text as bold orange and attaches a red footnote (defaults to
-% "Unsure wording, please finalize." if no custom footnote is provided).
-% Implementation uses \uline-style coloring instead of \underline so the
-% highlighted span breaks across lines naturally.
+% \unsure{text}[footnote] — flag wording you are not yet confident in. Renders
+% the text as bold orange with a red footnote (default: "Unsure wording, please
+% finalize.").
 \NewDocumentCommand{\unsure}{m o}{%
     \textbf{\textcolor{orange}{#1}}%
     \footnote{\textcolor{red}{%
@@ -200,49 +185,78 @@
     }}%
 }
 
-% (placeholder macro removed — prefer explicit text or \ph for inline hints)
-
-% \ph{hint} — inline placeholder (abbr. of placeholder) for an unmeasured
-% number, undecided name, or any token to fill in before submission.
-% Renders as [hint?] in muted orange — reads cleanly in body text but is
-% easy to grep / scan visually before submission. Empty arg: \ph{} -> [?].
+% \ph{hint} — inline placeholder for an unmeasured number, undecided name, or
+% any token to fill in before submission. Renders as [hint?] in muted orange:
+% reads cleanly in body text but is easy to grep / scan. Empty arg: \ph{} -> [?].
 \newcommand{\ph}[1]{%
     \textcolor{orange!85!black}{%
         [\ifthenelse{\equal{#1}{}}{\textbf{?}}{#1\textsuperscript{\textbf{?}}}]%
     }%
 }
 
-% Backward-compatible alias for older documents using the previous macro name.
-\newcommand{\pholder}[1]{\ph{#1}}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% COMMENT SYSTEM
+% COLLABORATION & REVIEW
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Toggle to hide all \mynote / \wei comments at once. Set to false before
-% camera-ready submission to strip review annotations from the output.
+% Master toggle for every review annotation below. Set to false before
+% camera-ready submission to strip all of them from the output.
 \newboolean{showcomments}
 \setboolean{showcomments}{true}
 
-% \mynote{author}{text}{color} — boxed author tag followed by colored comment.
-% Define a project-specific shorthand by wrapping it (see \wei below).
+% \mynote{author}{text}{color} — boxed author tag followed by a colored comment.
+% Wrap it to make per-author shorthands (see \wei).
 \ifthenelse{\boolean{showcomments}}
 { \newcommand{\mynote}[3]{%
    \protect\fbox{\bfseries\sffamily\scriptsize#1}%
    {\small$\triangleright$\textsf{\color{#3}{#2}}$\triangleleft$}}}
 { \newcommand{\mynote}[3]{}}%
 
-% \wei{text} — shorthand for \mynote{Wei}{...}{blue}. Add similar one-liners
-% for other authors as needed.
+% \wei{text} — shorthand for \mynote{Wei}{...}{blue}.
 \newcommand{\wei}[1]{\mynote{Wei}{#1}{blue}}
 
+% \todo[label]{text} — inline action item, distinct from \wei (an author
+% comment): flag work that still needs doing. The label sets both the tag and
+% a priority colour:
+%   FIXME, BUG      high    (red)
+%   TODO (default)  normal  (orange)
+%   NOTE, LATER     low     (gray)
+% any other label renders in the normal colour. Shown as a filled tag followed
+% by the item in the same colour. Add cases to the branch for more priorities.
+\ifthenelse{\boolean{showcomments}}
+{ \NewDocumentCommand{\todo}{O{TODO} m}{%
+    \ifthenelse{\equal{#1}{FIXME} \OR \equal{#1}{BUG}}%
+      {\def\todo@col{red!85!black}}%
+      {\ifthenelse{\equal{#1}{NOTE} \OR \equal{#1}{LATER}}%
+        {\def\todo@col{black!55}}%
+        {\def\todo@col{orange!90!black}}}%
+    \protect\colorbox{\todo@col}{\bfseries\sffamily\scriptsize\textcolor{white}{#1}}%
+    {\small~\textsf{\textcolor{\todo@col}{#2}}}}}
+{ \NewDocumentCommand{\todo}{O{TODO} m}{}}%
+
+% \ai[state]{quoted text}{instruction} — hand a span of text to an AI
+% collaborator with an instruction. The quoted span is bracketed and followed
+% by a chat-bubble carrying the instruction, so it reads as a prompt addressed
+% to the AI. The optional [state] says what the AI should do with it:
+%   (default)  act  — apply / fix this now   (violet, filled bubble)
+%   hold       park — leave it, do not act    (gray, hollow bubble + "hold")
+% The quoted text always stays in the document; the bubble and instruction
+% disappear when showcomments is off. Extend by adding cases to the branch.
+\NewDocumentCommand{\ai}{O{} m m}{%
+  \ifthenelse{\boolean{showcomments}}{%
+    \ifthenelse{\equal{#1}{hold}}%
+      {\def\ai@col{black!55}\def\ai@icon{\faComment[regular]}\def\ai@lab{\,\textsf{\scriptsize hold}}}%
+      {\def\ai@col{violet}\def\ai@icon{\faCommentDots}\def\ai@lab{}}%
+    \textcolor{\ai@col}{[}#2\textcolor{\ai@col}{]}%
+    \,\textcolor{\ai@col}{\ai@icon\ai@lab\,\textsf{#3}}%
+  }{#2}%
+}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% BOXED CONTENT AND QUOTATIONS
+% BOXES & STRUCTURE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% graybox environment — block-level light-gray background, no border. Useful
-% for pull-quotes, key takeaways, or sidebar-style asides. Use the environment
-% form for multi-paragraph content; use \grayboxtext{...} as a one-shot wrapper.
+% graybox — block-level light-gray background, no border. Use the environment
+% for multi-paragraph content; use \grayboxtext{...} as a one-shot wrapper.
 \newmdenv[
   backgroundcolor=gray!20,
   linewidth=0pt,
@@ -252,23 +266,16 @@
   innerbottommargin=5pt
 ]{graybox}
 
-% \grayboxtext{text} — convenience wrapper around \begin{graybox}...\end{graybox}.
 \newcommand{\grayboxtext}[1]{%
   \begin{graybox}
     #1
   \end{graybox}
 }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% CONCEPT INTRODUCTION COMMAND
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 % \say[concept]{text} — labelled concept introduction for structured writing.
-% Renders as:  [concept]  ⌜ text ⌝
-%   - the concept tag has a gray background and sans-serif text
-%   - the body is delimited by gray mathematical corner symbols
-% Use to mark each conceptual unit in a paragraph (background, motivation,
-% method, etc.) so the reader can scan the structure quickly.
+% Renders as  [concept] ⌜ text ⌝ : a gray sans-serif tag plus corner-delimited
+% body. Mark each conceptual unit (background, motivation, method, ...) so the
+% reader can scan a paragraph's structure quickly.
 %
 %   \say[Background]{Prior work focused on ...}
 %   \say{Concept}{Default tag if you omit the optional name.}
