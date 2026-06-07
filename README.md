@@ -48,6 +48,10 @@ If you put it in a subfolder which is in the same folder with your main.tex, the
 
 You generally do not need to `\usepackage` these yourself — `custom.sty` loads them — but if you need to set options for any of them, load that package first in your preamble. Note: because `custom.sty` loads `hyperref` and `cleveref`, do **not** load `hyperref` yourself; apply options via `\hypersetup{...}` after `\usepackage{custom}`.
 
+## Editor setup
+
+`.vscode/settings.json` recolors the custom/generic LaTeX commands (e.g. `\wei`, `\skp`, `\cnd`, `\ph`) so they no longer blend into body text in the editor. It targets the shared TextMate scope `support.function.general.{tex,latex}` used by LaTeX Workshop; built-in commands like `\ref`, `\cite`, and `\emph` keep their own theme colors. Change the `foreground` hex value to pick a different color, or remove the file to opt out.
+
 ## Notes
 
 - Review/collaboration macros — `\wei` (an author comment), `\mynote`, `\todo` (an inline action item), and `\ai` (hand a span to an AI with a prompt, rendered as a chat bubble) — all honor the `showcomments` toggle, so they disappear in camera-ready output (set `\setboolean{showcomments}{false}`).

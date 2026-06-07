@@ -1,0 +1,19 @@
+{
+  // Give custom/generic LaTeX commands their own color so macros like
+  // \wei, \skp, \cnd, \ph don't blend into body text. Built-in commands
+  // (\ref, \cite, \emph, \textbf, ...) keep their dedicated theme colors;
+  // everything else falls under support.function.general.{tex,latex}.
+  "editor.tokenColorCustomizations": {
+    "textMateRules": [
+      {
+        "scope": [
+          "support.function.general.tex",
+          "support.function.general.latex"
+        ],
+        "settings": {
+          "foreground": "#C586C0"
+        }
+      }
+    ]
+  }
+}
