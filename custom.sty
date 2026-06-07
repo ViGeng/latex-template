@@ -27,8 +27,9 @@
 %   Collaboration & review (all hidden when showcomments=false)
 %     \wei{text}                       inline note tagged "Wei"
 %     \mynote{author}{text}{color}     generic author note
-%     \todo[label]{text}               action item; label sets priority colour
-%                                      (FIXME/BUG red, TODO orange, NOTE/LATER gray)
+%     \todo[label]{text}               action item; tag leads with TODO, appends
+%                                      label (TODO·FIXME); colour by label, case-
+%                                      insensitive (FIXME/BUG red, NOTE/LATER/HOLD gray)
 %     \ai[state]{text}{instruction}    quote a span + a prompt for an AI; [hold] parks it
 %   Boxes & structure
 %     \begin{graybox}...\end{graybox}, \grayboxtext{...}
@@ -215,21 +216,30 @@
 \newcommand{\wei}[1]{\mynote{Wei}{#1}{blue}}
 
 % \todo[label]{text} — inline action item, distinct from \wei (an author
-% comment): flag work that still needs doing. The label sets both the tag and
-% a priority colour:
+% comment): flag work that still needs doing. The tag always leads with TODO; a
+% non-default label is appended (e.g. TODO·FIXME) and sets a priority colour.
+% Label matching is case-insensitive (fixme, FixMe, FIXME all match):
 %   FIXME, BUG      high    (red)
 %   TODO (default)  normal  (orange)
-%   NOTE, LATER     low     (gray)
+%   NOTE, LATER, HOLD  low  (gray)
 % any other label renders in the normal colour. Shown as a filled tag followed
 % by the item in the same colour. Add cases to the branch for more priorities.
 \ifthenelse{\boolean{showcomments}}
 { \NewDocumentCommand{\todo}{O{TODO} m}{%
-    \ifthenelse{\equal{#1}{FIXME} \OR \equal{#1}{BUG}}%
+    % Normalise the label to uppercase so matching ignores case.
+    \def\todo@key{#1}%
+    \uppercase\expandafter{\expandafter\def\expandafter\todo@key\expandafter{\todo@key}}%
+    % Priority colour from the normalised label.
+    \ifthenelse{\equal{\todo@key}{FIXME} \OR \equal{\todo@key}{BUG}}%
       {\def\todo@col{red!85!black}}%
-      {\ifthenelse{\equal{#1}{NOTE} \OR \equal{#1}{LATER}}%
+      {\ifthenelse{\equal{\todo@key}{NOTE} \OR \equal{\todo@key}{LATER} \OR \equal{\todo@key}{HOLD}}%
         {\def\todo@col{black!55}}%
         {\def\todo@col{orange!90!black}}}%
-    \protect\colorbox{\todo@col}{\bfseries\sffamily\scriptsize\textcolor{white}{#1}}%
+    % Tag text: always lead with TODO; append the label when it adds info.
+    \ifthenelse{\equal{\todo@key}{TODO}}%
+      {\def\todo@tag{TODO}}%
+      {\def\todo@tag{TODO\,\textperiodcentered\,\todo@key}}%
+    \protect\colorbox{\todo@col}{\bfseries\sffamily\scriptsize\textcolor{white}{\todo@tag}}%
     {\small~\textsf{\textcolor{\todo@col}{#2}}}}}
 { \NewDocumentCommand{\todo}{O{TODO} m}{}}%
 

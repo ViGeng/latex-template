@@ -55,6 +55,6 @@ You generally do not need to `\usepackage` these yourself — `custom.sty` loads
 ## Notes
 
 - Review/collaboration macros — `\wei` (an author comment), `\mynote`, `\todo` (an inline action item), and `\ai` (hand a span to an AI with a prompt, rendered as a chat bubble) — all honor the `showcomments` toggle, so they disappear in camera-ready output (set `\setboolean{showcomments}{false}`).
-- `\todo[label]{text}` colors itself by priority from its label: `FIXME`/`BUG` are high (red), `TODO` (the default) is normal (orange), and `NOTE`/`LATER` are low (gray); any other label uses the normal color.
+- `\todo[label]{text}` always leads its tag with `TODO` and appends a non-default label (e.g. `TODO·FIXME`), then colors itself by priority from that label: `FIXME`/`BUG` are high (red), `TODO` (the default) is normal (orange), and `NOTE`/`LATER`/`HOLD` are low (gray); any other label uses the normal color. Label matching is case-insensitive, so `[fixme]`, `[FixMe]`, and `[FIXME]` are equivalent.
 - `\ai{quoted text}{instruction}` carries an action state in its optional argument: by default the AI should apply the instruction now; use `\ai[hold]{...}{...}` to park a request for later instead of acting on it.
 - Macro names are short and may collide with other packages (notably `\todo` from `todonotes`); consider renaming or namespacing if you reuse `custom.sty` alongside such packages.
