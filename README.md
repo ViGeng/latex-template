@@ -1,6 +1,20 @@
 # Latex Template
 
-This repository contains `custom.sty`, a small reusable LaTeX package providing checklist symbols, framed quotes, and simple comment macros you can drop into other projects.
+This repository holds reusable LaTeX building blocks shared across papers:
+
+- **`custom.sty`** — checklist symbols, framed quotes, and AI-collaboration comment macros (`\ai`, `\todo`, `\wei`).
+- **`figstyle/`** — the figure style kit: one Okabe-Ito palette plus TikZ and matplotlib conventions so diagrams and plots look consistent across every project. See [`figstyle/README.md`](figstyle/README.md).
+
+## Figure style kit (`figstyle/`)
+
+A shared "house style" for figures, split into two layers: **appearance** (the
+palette, fonts, line weights, TikZ styles, and an icon library) lives globally
+in this kit; **meaning** (which concept gets which color, column widths) lives
+per-paper in a small `theme.tex` / `theme.py` you copy and edit. Figures
+reference colors by meaning (`draw=ours`), never by hue (`wgTeal`), so one
+palette edit reflows every paper.
+
+Vendor it by copying `figstyle/` into a project root, then `\usepackage{figstyle/wgstyle}` and `\input{theme}`. The palette is generated from `figstyle/palette.toml` via `python figstyle/gen.py`. Full reference and examples: [`figstyle/README.md`](figstyle/README.md).
 
 ## Quick usage
 

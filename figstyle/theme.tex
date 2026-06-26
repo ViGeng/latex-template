@@ -1,0 +1,35 @@
+%% =====================================================================
+%%  theme.tex --- THIS paper's semantic map (the PROJECT / meaning layer).
+%%
+%%  Copy this file into your paper, then edit the bindings below to match
+%%  the paper's concepts. wgstyle.sty (appearance) must be loaded first:
+%%      \usepackage{figstyle/wgstyle}
+%%      \input{theme}
+%%
+%%  Golden rule: figures reference these CONCEPT names (ours, cost, ...),
+%%  never the raw wg* hues. Then a palette change in palette.toml, or a
+%%  one-line remap here, reflows the whole paper without touching figures.
+%% =====================================================================
+
+% --- bind this paper's concepts to palette hues ------------------------
+\colorlet{ours}{wgTeal}      % our system / method / hero
+\colorlet{infra}{wgBlue}     % infrastructure / control plane
+\colorlet{cost}{wgAmber}     % the costly / attention-worthy thing
+\colorlet{neutral}{wgSlate}  % pipeline / generic components
+\colorlet{good}{wgGreen}     % fixes / health / ideal
+\colorlet{bad}{wgRed}        % problems / drift / failure
+\colorlet{altA}{wgPurple}    % a 4th category, if needed
+\colorlet{altB}{wgPink}      % a 5th category, if needed
+
+% --- optional: named semantic styles on top of the neutral wg styles ---
+\tikzset{
+  ourbox/.style={wgbox, draw=ours, line width=1.1pt, fill=ours!16},
+  ourflow/.style={wgflowhi, draw=ours},
+  costbox/.style={wgbox, draw=cost!85!black, fill=cost!20},
+}
+
+% --- optional: domain-specific icons live HERE, not in wgstyle.sty ------
+% \tikzset{
+%   pics/faceID/.style={code={ ... }},
+%   pics/robotArm/.style={code={ ... }},
+% }

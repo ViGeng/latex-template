@@ -1,0 +1,24 @@
+# GENERATED from palette.toml by gen.py -- DO NOT EDIT.
+
+font.family:        serif
+font.size:          8
+axes.labelsize:     8
+legend.fontsize:    7
+xtick.labelsize:    7
+ytick.labelsize:    7
+axes.spines.top:    False
+axes.spines.right:  False
+axes.linewidth:     0.8
+axes.grid:          False
+grid.alpha:         0.16
+grid.linewidth:     0.5
+lines.linewidth:    1.9
+legend.frameon:     False
+legend.handlelength: 1.5
+legend.labelspacing: 0.3
+legend.borderpad:   0.3
+figure.dpi:         150
+savefig.dpi:        300
+savefig.bbox:       tight
+pdf.fonttype:       42  # embed TrueType, no Type-3 (camera-ready safe)
+ps.fonttype:        42

@@ -1,5 +1,23 @@
 # Changelog
 
+## figstyle kit: shared figure palette + TikZ/matplotlib style — 2026-06-26
+
+Added `figstyle/`, the global "appearance" layer for figures so diagrams and
+plots look consistent across every paper.
+
+- **Single source of truth.** `palette.toml` holds the Okabe-Ito/Wong palette,
+  venue column widths, and type sizes. `gen.py` regenerates `wgpalette.tex`
+  (LaTeX `\definecolor`), `wgpalette.py` (matplotlib constants + `use_style()`),
+  and `wgeng.mplstyle` — so the LaTeX and Python sides can never drift.
+- **wgstyle.sty** provides neutral TikZ node/edge styles and a generic icon
+  library (camera, cloud, chip, server, gear, doc, envelope, check, pulse,
+  spark). It bakes in no concept colors: `[wgbox, draw=ours]` gives meaning.
+- **Two-layer model.** Appearance is global (this kit); meaning is per-paper in
+  `theme.tex` / `theme.py` (copy + edit). Golden rule: figures address colors
+  by meaning (`ours`, `cost`), never by hue (`wgTeal`).
+- **Examples** under `figstyle/examples/` (a TikZ pipeline and a matplotlib cost
+  plot) build clean with `pdflatex` / `python`; previews in the kit README.
+
 ## \todo tag: TODO-prefixed label + case-insensitive matching — 2026-06-07
 
 Refined the `\todo[label]{text}` macro in `custom.sty`.

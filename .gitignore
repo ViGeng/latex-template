@@ -305,3 +305,8 @@ TSWLatexianTemp*
 .DS_Store
 *.loc
 report.pdf
+
+# Python (figstyle generator + plot scripts)
+__pycache__/
+*.pyc
+.venv/

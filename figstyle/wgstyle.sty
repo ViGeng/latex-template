@@ -1,0 +1,129 @@
+%% =====================================================================
+%%  wgstyle.sty --- Wei Geng's figure style (the GLOBAL / appearance layer).
+%%
+%%  Provides the palette, TikZ libraries, arrowheads, neutral node/edge
+%%  styles, and a generic icon library. It deliberately bakes in NO
+%%  concept colors: a box is slate by default, and you give it meaning in
+%%  your paper's theme.tex with an override, e.g. [wgbox, draw=ours].
+%%  That keeps every figure addressing colors by meaning, not by hue, so
+%%  one palette edit (in palette.toml) reflows every paper consistently.
+%%
+%%  Usage in a paper preamble:
+%%      \usepackage{figstyle/wgstyle}   % this file (appearance)
+%%      \input{theme}                   % your semantic map (meaning)
+%%  If the kit lives elsewhere, set the path before loading:
+%%      \def\wgfigpath{vendor/figstyle/}\usepackage{vendor/figstyle/wgstyle}
+%%
+%%  The palette is GENERATED: edit palette.toml, run `python gen.py`.
+%% =====================================================================
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{wgstyle}[2026/06/26 v1.0.0 Wei Geng figure style]
+
+\RequirePackage{tikz}
+\RequirePackage{xcolor}
+\usetikzlibrary{arrows.meta,positioning,calc,fit,backgrounds,shapes.geometric}
+
+% Palette: \input the generated color definitions. Default location is a
+% figstyle/ folder at the project root; override \wgfigpath to relocate.
+\providecommand{\wgfigpath}{figstyle/}
+\input{\wgfigpath wgpalette}
+
+% ---------------------------------------------------------------------------
+% Picture-wide defaults. Apply with \begin{tikzpicture}[wgfig].
+% ---------------------------------------------------------------------------
+\tikzset{
+  wgfig/.style={font=\sffamily, >={Latex[length=1.8mm]}, line cap=round, line join=round},
+}
+
+% ---------------------------------------------------------------------------
+% Neutral node styles. Give them meaning with a color override, e.g.
+%   \node[wgbox, draw=ours, fill=ours!16] {Router};
+% ---------------------------------------------------------------------------
+\tikzset{
+  % faint background panel (override fill with a *Bg tint, e.g. fill=wgTealBg)
+  wgpanel/.style={rounded corners=7pt, fill=wgSlateBg, draw=wgSlate!18, line width=0.6pt},
+  % crisp white card to sit on top of a panel
+  wgcard/.style={rounded corners=5pt, fill=white, draw=wgSlate!28, line width=0.7pt},
+  % the basic labelled box
+  wgbox/.style={rounded corners=2.5pt, draw=wgSlate!70, line width=0.85pt, fill=white,
+                align=center, inner sep=3pt, minimum width=1.0cm, minimum height=0.6cm,
+                font=\scriptsize, text=wgInk},
+  % a rounded chip / pill (override draw+fill for meaning)
+  wgchip/.style={rounded corners=3pt, draw=wgSlate!60, line width=1.0pt, fill=wgSlate!10,
+                 align=center, inner sep=3pt, font=\scriptsize, text=wgInk},
+  wgpill/.style={rounded corners=8pt, draw=wgSlate!55, line width=1.0pt, fill=wgSlate!8,
+                 align=center, inner sep=3pt, font=\footnotesize, text=wgInk},
+  % decision diamond + small leaf
+  wgdiamond/.style={diamond, draw=wgSlate!80, line width=0.9pt, fill=white,
+                    inner sep=0pt, minimum width=0.34cm, minimum height=0.34cm},
+  wgleaf/.style={rounded corners=2pt, draw=wgSlate!55, fill=wgSlate!14, inner sep=1.5pt,
+                 minimum size=0.32cm, font=\scriptsize, text=wgInk},
+  % text labels
+  wghdr/.style={font=\sffamily\bfseries, text=wgInk},
+  wglbl/.style={font=\sffamily\scriptsize, text=wgSlate, align=center},
+  wgtiny/.style={font=\sffamily\fontsize{6}{7}\selectfont, text=wgSlate, align=center},
+}
+
+% ---------------------------------------------------------------------------
+% Neutral edge styles. Override the color for meaning: [wgflow, draw=ours].
+% ---------------------------------------------------------------------------
+\tikzset{
+  wgflow/.style={->, line width=0.9pt, draw=wgSlate!85},          % default data flow
+  wgflowhi/.style={->, line width=1.1pt, draw=wgSlate},           % emphasized flow
+  wgfan/.style={->, line width=0.7pt, draw=wgSlate!60},           % one-to-many fan
+  wgbus/.style={line width=2.0pt, draw=wgSlate!72, line cap=round, line join=round}, % a bus / channel
+  wgrail/.style={line width=0.9pt, draw=wgSlate!50, dash pattern=on 3pt off 2pt},    % a rail
+  wgdep/.style={-{Stealth[length=3.2pt]}, line width=0.75pt, draw=wgSlate!60,
+                dash pattern=on 2.4pt off 1.8pt},                 % deploy / dependency
+  wgtap/.style={{Stealth[length=3pt]}-{Stealth[length=3pt]}, line width=0.55pt, draw=wgSlate!70}, % pub/sub tap
+  wgbound/.style={draw=wgSlate!70, dash pattern=on 1.8pt off 1.8pt, line width=0.9pt}, % a boundary
+}
+
+% ---------------------------------------------------------------------------
+% Generic icon library (pics). Neutral slate structure; check/pulse are
+% green because they universally mean "ok". For a colored, domain-specific
+% icon, copy a pic into your theme.tex and swap the color.
+%   \pic at (x,y) {camera};   or scale it: \pic[scale=1.2] at ... {cloud};
+% ---------------------------------------------------------------------------
+\tikzset{
+  pics/camera/.style={code={%
+    \draw[wgSlate,line width=0.8pt,fill=wgSlate!14,rounded corners=1pt] (-0.30,-0.20) rectangle (0.30,0.18);
+    \draw[wgSlate,line width=0.8pt,fill=wgSlate!14] (0.03,0.18)--(0.07,0.28)--(0.20,0.28)--(0.23,0.18)--cycle;
+    \draw[wgSlate,line width=0.8pt,fill=white] (-0.02,-0.01) circle (0.10);
+    \fill[wgSlate] (-0.02,-0.01) circle (0.04);}},
+  pics/cloud/.style={code={%
+    \fill[wgSlate!30] (-0.24,0.00) circle(0.18) (0.07,0.10) circle(0.22) (0.28,-0.03) circle(0.15);
+    \fill[wgSlate!30,rounded corners=2pt] (-0.38,-0.15) rectangle (0.38,0.07);
+    \draw[wgSlate,line width=0.9pt] (-0.38,-0.15)--(0.38,-0.15);}},
+  pics/chip/.style={code={%
+    \draw[line width=0.7pt,fill=wgSlate!18,draw=wgSlate] (-0.15,-0.15) rectangle (0.15,0.15);
+    \fill[wgSlate!55] (-0.06,-0.06) rectangle (0.06,0.06);
+    \foreach \p in {-0.09,0,0.09}{%
+      \draw[line width=0.5pt,wgSlate] (-0.15,\p)--(-0.20,\p);\draw[line width=0.5pt,wgSlate] (0.15,\p)--(0.20,\p);
+      \draw[line width=0.5pt,wgSlate] (\p,0.15)--(\p,0.20);\draw[line width=0.5pt,wgSlate] (\p,-0.15)--(\p,-0.20);}}},
+  pics/server/.style={code={%
+    \foreach \y in {0,0.12,0.24}{\draw[line width=0.6pt,fill=wgSlate!18,draw=wgSlate] (-0.13,\y) rectangle (0.13,\y+0.085);
+      \fill[wgGreen] (0.08,\y+0.043) circle (0.012);}}},
+  pics/gear/.style={code={%
+    \foreach \a in {0,45,...,315}{\draw[wgSlate,line width=2.4pt] (\a:0.20)--(\a:0.30);}
+    \draw[wgSlate,line width=1.1pt,fill=wgSlate!14] (0,0) circle(0.20);
+    \draw[wgSlate,line width=1.1pt,fill=white] (0,0) circle(0.085);}},
+  pics/doc/.style={code={%
+    \draw[line width=0.6pt,fill=white,draw=wgSlate] (-0.11,-0.15)--(-0.11,0.15)--(0.05,0.15)--(0.11,0.09)--(0.11,-0.15)--cycle;
+    \draw[line width=0.5pt,draw=wgSlate] (0.05,0.15)--(0.05,0.09)--(0.11,0.09);
+    \foreach \y in {0.03,-0.02,-0.07}{\draw[line width=0.4pt,wgSlate!70] (-0.06,\y)--(0.06,\y);}}},
+  pics/envelope/.style={code={%
+    \draw[line width=0.8pt,fill=wgSlate!12,draw=wgSlate,rounded corners=1pt] (-0.24,-0.16) rectangle (0.24,0.16);
+    \draw[line width=0.8pt,draw=wgSlate,line join=round] (-0.24,0.16)--(0,-0.01)--(0.24,0.16);}},
+  pics/check/.style={code={%
+    \fill[wgGreen] (0,0) circle(0.20);
+    \draw[white,line width=1.6pt,line cap=round,line join=round] (-0.09,0.0)--(-0.02,-0.08)--(0.11,0.10);}},
+  pics/pulse/.style={code={%
+    \draw[line width=0.9pt,wgGreen,line cap=round,line join=round]
+      (-0.18,0)--(-0.07,0)--(-0.02,0.12)--(0.03,-0.12)--(0.08,0)--(0.18,0);}},
+  pics/spark/.style={code={%
+    \draw[line width=0.9pt,wgSlate,line cap=round,line join=round]
+      (-0.17,-0.02)--(-0.10,0.06)--(-0.03,-0.06)--(0.04,0.08)--(0.11,-0.04)--(0.17,0.05);}},
+}
+
+\endinput

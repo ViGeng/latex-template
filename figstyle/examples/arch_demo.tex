@@ -1,0 +1,48 @@
+% arch_demo.pdf -- shows the TikZ half of wgstyle: panels, cards, neutral
+% boxes given meaning by color overrides, the generic icon pics, and flows.
+% Build:  pdflatex arch_demo.tex   (run inside figstyle/examples/)
+\documentclass[border=4pt]{standalone}
+\def\wgfigpath{../}            % palette lives one level up, in figstyle/
+\usepackage{../wgstyle}
+
+% --- the per-paper meaning layer (normally in theme.tex) ---------------
+\colorlet{ours}{wgTeal}
+\colorlet{infra}{wgBlue}
+\colorlet{cost}{wgAmber}
+\colorlet{good}{wgGreen}
+\tikzset{
+  ourbox/.style={wgbox, draw=ours, line width=1.1pt, fill=ours!16},
+  ourflow/.style={wgflowhi, draw=ours},
+  costbox/.style={wgbox, draw=cost!85!black, fill=cost!20},
+}
+
+\begin{document}
+\begin{tikzpicture}[wgfig]
+  % faint background panel + a header
+  \draw[wgpanel, fill=wgTealBg] (0,0) rectangle (9.2,2.6);
+  \node[wghdr] at (4.6,2.28) {A pipeline in the house style};
+
+  % a crisp card holding the flow
+  \node[wgcard, minimum width=8.4cm, minimum height=1.5cm] at (4.6,1.05) {};
+
+  % source icon -> weak (cost) -> router (ours) -> decision -> result
+  \pic at (0.95,1.05) {camera};
+  \node[costbox] (mw)  at (2.2,1.05) {$M_w$};
+  \node[ourbox]  (rtr) at (3.8,1.05) {Router};
+  \node[wgdiamond] (d) at (5.1,1.05) {};
+  \node[wgleaf]  (y)   at (6.2,1.05) {$\hat{y}$};
+
+  \draw[wgflow] (1.3,1.05) -- (mw.west);
+  \draw[wgflow] (mw.east) -- (rtr.west);
+  \draw[ourflow] (rtr.east) -- (d.west);
+  \draw[wgflow] (d.east) -- (y.west);
+
+  % offload to the cloud (infra-colored)
+  \pic at (8.4,1.55) {cloud};
+  \draw[wgflowhi, draw=infra] (d.north) |- (7.95,1.55) node[wglbl, pos=0.75, above, text=infra]{offload};
+
+  % a green "ok" badge
+  \pic at (8.35,0.6) {check};
+  \node[wglbl, anchor=west, text=good] at (8.6,0.6) {ok};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,77 @@
+# =====================================================================
+#  palette.toml --- single source of truth for Wei Geng's figure style.
+#
+#  Edit ONLY this file, then run:  python gen.py
+#  That regenerates wgpalette.tex (LaTeX), wgpalette.py (matplotlib) and
+#  wgeng.mplstyle from these values, so the LaTeX and Python sides can
+#  never drift apart.
+#
+#  Hues are Okabe-Ito / Wong derived: distinguishable for colorblind
+#  readers and in grayscale print. "fill" hues are slightly desaturated
+#  for TikZ boxes/panels and ship a light "bg" tint; "curve" hues are the
+#  saturated Okabe-Ito accents for punchy line plots.
+# =====================================================================
+
+[meta]
+name = "wgstyle"
+version = "1.0.0"
+
+# --- core hues: each gets a wg<Name> color and a wg<Name>Bg light tint ---
+[fill.teal]
+hex = "1C7C6C"
+bg  = "E7F3EF"
+role = "primary / ours / hero"
+[fill.blue]
+hex = "2E6FB0"
+bg  = "E8F1FB"
+role = "secondary / infrastructure / control"
+[fill.amber]
+hex = "C9821F"
+bg  = "FBEEDB"
+role = "attention / the costly thing"
+[fill.slate]
+hex = "6E767E"
+bg  = "EEF1F3"
+role = "neutral / pipeline / outputs"
+[fill.green]
+hex = "2E8B57"
+bg  = "E9F4EC"
+role = "good / health / ideal"
+[fill.red]
+hex = "C4313C"
+bg  = "FBE9EA"
+role = "problem / drift / failure"
+[fill.purple]
+hex = "6A51A3"
+bg  = "ECE8F4"
+role = "alternative method / 4th category"
+[fill.pink]
+hex = "CC79A7"
+bg  = "F7EAF1"
+role = "alternative method / penalty region"
+
+# --- saturated accents for max-contrast line plots ---------------------
+[curve]
+vivid = "D55E00"   # Okabe-Ito vermillion: first line / "A"
+azure = "0072B2"   # Okabe-Ito blue:       second line / "B"
+
+# --- standalone extras -------------------------------------------------
+[extra]
+ink    = "2B2B2B"  # default label ink
+edgebg = "F4F8F7"  # faint panel tint (e.g. an edge-device band)
+
+# --- venue column widths (inches), used by matplotlib figsize ----------
+[widths]
+col_acm    = 3.34
+dbl_acm    = 7.0
+col_usenix = 3.32
+dbl_usenix = 7.0
+col_ieee   = 3.5
+dbl_ieee   = 7.16
+
+# --- typography (points), shared by every figure -----------------------
+[type]
+font   = 8
+label  = 8
+tick   = 7
+legend = 7
