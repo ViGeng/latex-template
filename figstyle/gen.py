@@ -100,6 +100,7 @@ def main():
     # ---- wgeng.mplstyle -------------------------------------------------
     mpl = [MPL_HEAD,
            "font.family:        serif",
+           "mathtext.fontset:   dejavuserif  # math in the serif body font, not sans",
            f"font.size:          {typ['font']}",
            f"axes.labelsize:     {typ['label']}",
            f"legend.fontsize:    {typ['legend']}",

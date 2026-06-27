@@ -101,10 +101,12 @@ node/edge styles are **neutral** (slate); add a color override for meaning.
 
 ## matplotlib reference
 
-`wgeng.mplstyle` sets: serif 8pt, labels 8 / ticks 7 / legend 7, no top/right
-spines, frameless legend, `lines.linewidth 1.9`, `savefig.bbox tight`, and
-`pdf.fonttype 42` (no Type-3 fonts — camera-ready safe). Applied
-automatically when `theme.py` is imported (it calls `wg.use_style()`).
+`wgeng.mplstyle` sets: serif 8pt, labels 8 / ticks 7 / legend 7,
+`mathtext.fontset dejavuserif` (so `$…$` math renders in the serif body font,
+not matplotlib's default sans), no top/right spines, frameless legend,
+`lines.linewidth 1.9`, `savefig.bbox tight`, and `pdf.fonttype 42` (no Type-3
+fonts — camera-ready safe). Applied automatically when `theme.py` is imported
+(it calls `wg.use_style()`).
 
 Idioms baked into the examples: shade a `fill_between` band to *name* a
 quantity; mark a turn/crossover point with a dashed `axvline` + scatter +

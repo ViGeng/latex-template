@@ -1,5 +1,17 @@
 # Changelog
 
+## figstyle: pin mathtext to the serif body font — 2026-06-27
+
+Fixed a within-figure font inconsistency. `wgeng.mplstyle` set `font.family:
+serif` but left `mathtext.fontset` unset, so matplotlib rendered every `$…$`
+label (e.g. `$\Delta\!\mathrm{AP}$`, `$\mathrm{MORIC}^{+}$`) in its default
+**DejaVu Sans**, while plain strings used the serif body font — two typefaces in
+one plot.
+
+- **Fix in `gen.py`** (the generator, so it survives regeneration): added
+  `mathtext.fontset: dejavuserif` to the `wgeng.mplstyle` block; regenerated.
+  Math now matches the serif text. Re-render existing figures to pick it up.
+
 ## figstyle kit: shared figure palette + TikZ/matplotlib style — 2026-06-26
 
 Added `figstyle/`, the global "appearance" layer for figures so diagrams and
